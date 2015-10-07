@@ -49,6 +49,8 @@ String.prototype.convertToMorse = function() {
     return morse;
 }; 
 
+
+/*
 function blink(time) {
 //	console.log("processed time: ", Math.abs(time*1000), " options: ", options);
 	time>0 ? document.getElementById(options.element).classList.add(options.toggle)
@@ -66,6 +68,23 @@ function flashText(text) {
 		blink(signal);
 		blink(-1);
 	});
+};
+*/
+
+function blinkText(text) {
+	var count = 0;
+	var oneBlink = function(time) {
+		window.setTimeout(function() {
+			if (time > 0) {
+ 				document.getElementById(options.element).classList.remove(options.toggle);
+				document.getElementById(options.element).classList.add(options.toggle);
+			}
+			if (text[++count] != undefined) {
+				oneBlink(text[count]);
+			}
+		}, Math.abs(time*1000));
+	};
+	oneBlink(text[count]);
 };
 
 function morseFlicker(element, userOpts){
@@ -85,7 +104,7 @@ function morseFlicker(element, userOpts){
 	options.string = options.string.toLowerCase();
     var morse = options.string.convertToMorse(); 
 //	console.log(morse);
-	flashText(morse);
+	blinkText(morse);
 };
 
 
