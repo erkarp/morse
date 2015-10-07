@@ -71,20 +71,34 @@ function flashText(text) {
 };
 */
 
-function blinkText(text) {
-	var count = 0;
-	var oneBlink = function(time) {
-		window.setTimeout(function() {
-			if (time > 0) {
- 				document.getElementById(options.element).classList.remove(options.toggle);
-				document.getElementById(options.element).classList.add(options.toggle);
-			}
-			if (text[++count] != undefined) {
-				oneBlink(text[count]);
-			}
-		}, Math.abs(time*1000));
-	};
-	oneBlink(text[count]);
+function blinkText(text, count) {
+	toggle(text[count]);
+	
+	window.setTimeout(function() {
+		
+		isThereMore(text, ++count) ? 
+			blinkText(text, count) :
+			console.log("end");
+					
+	}, Math.abs(text[count]*1000));
+};
+
+function isThereMore(array, count) {
+	if (array[count+1] == undefined) {
+		return false; 
+	}
+	return true; 
+}
+
+function toggle(time){
+	elem = document.getElementById(options.element);
+	console.log(time, elem.classList);
+	
+	if (time > 0 && !elem.classList.contains(options.toggle)) {
+		elem.classList.add(options.toggle);
+	} else {
+		elem.classList.remove(options.toggle);
+	}
 };
 
 function morseFlicker(element, userOpts){
@@ -103,8 +117,8 @@ function morseFlicker(element, userOpts){
     
 	options.string = options.string.toLowerCase();
     var morse = options.string.convertToMorse(); 
-//	console.log(morse);
-	blinkText(morse);
+	console.log(morse);
+	blinkText(morse, 0);
 };
 
 
@@ -114,6 +128,6 @@ function morseFlicker(element, userOpts){
 // Demo
 morseFlicker('box', {
     toggle: 'active',
-    string: 'This is my text',
+    string: 'Oh my goodness it fucking works',
     time: 1
 });
