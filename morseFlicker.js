@@ -5,15 +5,17 @@ var options = {
 };
 
 Array.prototype.add = function(arr) {
-    arr.forEach(function(item) {
-		this.push(item);
-    });
+	for (var i = 0; i < arr.length; i++) {
+		this.push(arr[i]);
+	}
 };
 
 String.prototype.convertToMorse = function() {
-    var array = this.split(''), morse; 
+    var array = this.split(''), 
+		morse = []; 
+//	console.log(array);
     array.forEach(function(char) {
-        switch(elem) {
+        switch(char) {
             case ' ': morse.add([-2]); break;
             case 'a': morse.add([1,2]); break;
             case 'b': morse.add([2,1,1,1]); break;
@@ -42,29 +44,36 @@ String.prototype.convertToMorse = function() {
             case 'y': morse.add([2,1,2,2]); break;
             case 'z': morse.add([2,2,1,1]); break;
 			default: morse.add([-2]);
+		}
     });
     return morse;
 }; 
 
 function blink(time) {
-	time>0 ? document.getElementsByClassName(options.element).classList.add(options.toggle):;
+//	console.log("processed time: ", Math.abs(time*1000), " options: ", options);
+	time>0 ? document.getElementById(options.element).classList.add(options.toggle)
+	: function(){} ;
 	
     window.setTimeout(function() { 
-		time>0 ? document.getElementsByClassName(options.element).classList.remove(options.toggle):;
-	}, abs(time*1000));
+		time>0 ? document.getElementById(options.element).classList.remove(options.toggle)
+		: function(){} ;
+	}, Math.abs(time*1000));
 };
 	
 function flashText(text) {
 	text.forEach(function(signal) {
+		console.log(signal);
 		blink(signal);
 		blink(-1);
 	});
 };
 
-function morseFlicker(element, toggle, string, userOpts){
+function morseFlicker(element, userOpts){
     if (typeof arguments[0] != 'string') {
         throwError; return; 
     }
+	
+	options.element = element;
     
     for (var opt in options) {
         if (userOpts[opt] != undefined 
@@ -73,9 +82,10 @@ function morseFlicker(element, toggle, string, userOpts){
         }
     }
     
+	options.string = options.string.toLowerCase();
     var morse = options.string.convertToMorse(); 
-    var array = convertMorseToNums(morse);
-	flashText(array);
+//	console.log(morse);
+	flashText(morse);
 };
 
 
@@ -83,7 +93,7 @@ function morseFlicker(element, toggle, string, userOpts){
 
  
 // Demo
-morseFlicker('morse-class', {
+morseFlicker('box', {
     toggle: 'active',
     string: 'This is my text',
     time: 1
