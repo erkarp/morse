@@ -13,49 +13,52 @@ String.prototype.convertToMorse = function() {
     var array = this.split(''), morse; 
     array.forEach(function(char) {
         switch(elem) {
-            case ' ': morse.concat([-2]); break;
-            case 'a': morse.concat([1,2]); break;
-            case 'b': morse.concat([2,1,1,1]); break;
-            case 'c': morse.concat([2,1,2,1]); break;
-            case 'd': morse.concat([2,1,1]); break;
-            case 'e': morse.concat([1]); break;
-            case 'f': morse.concat([1,1,2,1]); break;
-            case 'g': morse.concat([2,2,1]); break;
-            case 'h': morse.concat([1,1,1,1]); break;
-            case 'i': morse.concat([1,1]); break;
-            case 'j': morse.concat([1,2,2,2]); break;
-            case 'k': morse.concat([2,1,2]); break;
-            case 'l': morse.concat([1,2,1,1]); break;
-            case 'm': morse.concat([2,2]); break;
-            case 'n': morse.concat([2,1]); break;
-            case 'o': morse.concat([2,2,2]); break;
-            case 'p': morse.concat([1,2,2,1]); break;
-            case 'q': morse.concat([2,2,1,2]); break;
-            case 'r': morse.concat([1,2,1]); break;
-            case 's': morse.concat([1,1,1]); break;
-            case 't': morse.concat([2]); break;
-            case 'u': morse.concat([1,1,2]); break;
-            case 'v': morse.concat([1,1,1,2]); break;
-            case 'w': morse.concat([1,2,2]); break;
-            case 'x': morse.concat([2,1,1,2]); break;
-            case 'y': morse.concat([2,1,2,2]); break;
-            case 'z': morse.concat([2,2,1,1]); break;
-        }
+            case ' ': morse.add([-2]); break;
+            case 'a': morse.add([1,2]); break;
+            case 'b': morse.add([2,1,1,1]); break;
+            case 'c': morse.add([2,1,2,1]); break;
+            case 'd': morse.add([2,1,1]); break;
+            case 'e': morse.add([1]); break;
+            case 'f': morse.add([1,1,2,1]); break;
+            case 'g': morse.add([2,2,1]); break;
+            case 'h': morse.add([1,1,1,1]); break;
+            case 'i': morse.add([1,1]); break;
+            case 'j': morse.add([1,2,2,2]); break;
+            case 'k': morse.add([2,1,2]); break;
+            case 'l': morse.add([1,2,1,1]); break;
+            case 'm': morse.add([2,2]); break;
+            case 'n': morse.add([2,1]); break;
+            case 'o': morse.add([2,2,2]); break;
+            case 'p': morse.add([1,2,2,1]); break;
+            case 'q': morse.add([2,2,1,2]); break;
+            case 'r': morse.add([1,2,1]); break;
+            case 's': morse.add([1,1,1]); break;
+            case 't': morse.add([2]); break;
+            case 'u': morse.add([1,1,2]); break;
+            case 'v': morse.add([1,1,1,2]); break;
+            case 'w': morse.add([1,2,2]); break;
+            case 'x': morse.add([2,1,1,2]); break;
+            case 'y': morse.add([2,1,2,2]); break;
+            case 'z': morse.add([2,2,1,1]); break;
+			default: morse.add([-2]);
     });
     return morse;
 }; 
 
-function convertMorseToNums(s) {
-    var array = s.split(''), array2;
-    array.
-}
-
-function blink(element, toggle, time) {
-    document.getElementsByClassName(element).classList.add(toggle);
-    window.setTimeout(function() {
-        document.getElementsByClassName(element).classList.remove(toggle);
-    }, time);
-}
+function blink(time) {
+	time>0 ? document.getElementsByClassName(options.element).classList.add(options.toggle):;
+	
+    window.setTimeout(function() { 
+		time>0 ? document.getElementsByClassName(options.element).classList.remove(options.toggle):;
+	}, abs(time*1000));
+};
+	
+function flashText(text) {
+	text.forEach(function(signal) {
+		blink(signal);
+		blink(-1);
+	});
+};
 
 function morseFlicker(element, toggle, string, userOpts){
     if (typeof arguments[0] != 'string') {
@@ -75,7 +78,7 @@ function morseFlicker(element, toggle, string, userOpts){
     morse.forEach(function(i){
         blink(i);
     });
-}
+};
 
 
 
