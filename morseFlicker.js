@@ -9,6 +9,7 @@ Array.prototype.add = function(arr) {
 		this.push(item);
     });
 };
+
 String.prototype.convertToMorse = function() {
     var array = this.split(''), morse; 
     array.forEach(function(char) {
@@ -74,10 +75,7 @@ function morseFlicker(element, toggle, string, userOpts){
     
     var morse = options.string.convertToMorse(); 
     var array = convertMorseToNums(morse);
-    
-    morse.forEach(function(i){
-        blink(i);
-    });
+	flashText(array);
 };
 
 
