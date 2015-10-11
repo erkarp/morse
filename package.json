@@ -1,0 +1,21 @@
+{
+  "name": "morse-toggle",
+  "version": "1.0.0",
+  "description": "Use your website to communicate in Morse code",
+  "main": "morseToggle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kerarp@bitbucket.org/kerarp/morsetoggle.git"
+  },
+  "keywords": [
+    "morse",
+    "code",
+    "toggle"
+  ],
+  "author": "Emily Karp",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/kerarp/morsetoggle#readme"
+}
