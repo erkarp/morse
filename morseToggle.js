@@ -11,6 +11,18 @@ Array.prototype.add = function(arr) {
 	}
 };
 
+Array.prototype.morseString = function() {
+	var string = ''; 
+	this.forEach(function(char) {
+		switch(char) {
+			case -2: string += ' / ';
+			case -1: string += '';
+			case  1: string += '.';
+			case  2: string += '-';
+		};
+	}); 	return string;
+};
+
 String.prototype.convertToMorse = function() {
     var array = this.split(''), 
 		morse = []; 
