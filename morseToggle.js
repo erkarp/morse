@@ -9,7 +9,14 @@ Array.prototype.add = function(arr) {
 		this.push(arr[i]);
 		this.push(-1);
 	}
+	return this; 
 };
+
+Array.prototype.flatten = function() {
+	return this.reduce(function(bigArr, curArr) {
+		return bigArr.add(curArr);
+	}, []);
+}
 
 String.prototype.convertToMorse = function() {
     var array = this.split(''), 
@@ -17,34 +24,34 @@ String.prototype.convertToMorse = function() {
 	
     array.forEach(function(char) {
         switch(char) {
-            case ' ': morse.add([-2]); break;
-            case 'a': morse.add([1,2]); break;
-            case 'b': morse.add([2,1,1,1]); break;
-            case 'c': morse.add([2,1,2,1]); break;
-            case 'd': morse.add([2,1,1]); break;
-            case 'e': morse.add([1]); break;
-            case 'f': morse.add([1,1,2,1]); break;
-            case 'g': morse.add([2,2,1]); break;
-            case 'h': morse.add([1,1,1,1]); break;
-            case 'i': morse.add([1,1]); break;
-            case 'j': morse.add([1,2,2,2]); break;
-            case 'k': morse.add([2,1,2]); break;
-            case 'l': morse.add([1,2,1,1]); break;
-            case 'm': morse.add([2,2]); break;
-            case 'n': morse.add([2,1]); break;
-            case 'o': morse.add([2,2,2]); break;
-            case 'p': morse.add([1,2,2,1]); break;
-            case 'q': morse.add([2,2,1,2]); break;
-            case 'r': morse.add([1,2,1]); break;
-            case 's': morse.add([1,1,1]); break;
-            case 't': morse.add([2]); break;
-            case 'u': morse.add([1,1,2]); break;
-            case 'v': morse.add([1,1,1,2]); break;
-            case 'w': morse.add([1,2,2]); break;
-            case 'x': morse.add([2,1,1,2]); break;
-            case 'y': morse.add([2,1,2,2]); break;
-            case 'z': morse.add([2,2,1,1]); break;
-			default: morse.add([-2]);
+            case ' ': morse.push([-2]); break;
+            case 'a': morse.push([1,2]); break;
+            case 'b': morse.push([2,1,1,1]); break;
+            case 'c': morse.push([2,1,2,1]); break;
+            case 'd': morse.push([2,1,1]); break;
+            case 'e': morse.push([1]); break;
+            case 'f': morse.push([1,1,2,1]); break;
+            case 'g': morse.push([2,2,1]); break;
+            case 'h': morse.push([1,1,1,1]); break;
+            case 'i': morse.push([1,1]); break;
+            case 'j': morse.push([1,2,2,2]); break;
+            case 'k': morse.push([2,1,2]); break;
+            case 'l': morse.push([1,2,1,1]); break;
+            case 'm': morse.push([2,2]); break;
+            case 'n': morse.push([2,1]); break;
+            case 'o': morse.push([2,2,2]); break;
+            case 'p': morse.push([1,2,2,1]); break;
+            case 'q': morse.push([2,2,1,2]); break;
+            case 'r': morse.push([1,2,1]); break;
+            case 's': morse.push([1,1,1]); break;
+            case 't': morse.push([2]); break;
+            case 'u': morse.push([1,1,2]); break;
+            case 'v': morse.push([1,1,1,2]); break;
+            case 'w': morse.push([1,2,2]); break;
+            case 'x': morse.push([2,1,1,2]); break;
+            case 'y': morse.push([2,1,2,2]); break;
+            case 'z': morse.push([2,2,1,1]); break;
+			default: morse.push([-2]);
 		}
     });
     return morse;
@@ -60,16 +67,9 @@ function numToSym(char) {
 	};
 };
 
-function flattenArray = function(threeD) {
-	return threeD.reduce(function(bigArr, curArr) {
-		return bigArr.concat(curArr);
-	}, []};
-}
-
 function blinkText(text, count) {
 	
 	toggle(text[count]);
-	
 	window.setTimeout(function() {
 		
 		isThereMore(text, ++count) ? 
@@ -80,7 +80,7 @@ function blinkText(text, count) {
 };
 
 function toggle(time){
-	elem = document.getElementById(options.element);
+	var elem = document.getElementById(options.element);
 	console.log(time, elem.classList);
 	
 	if (time > 0 && !elem.classList.contains(options.toggle)) {
@@ -112,7 +112,8 @@ function morseFlicker(element, userOpts){
     }
     
 	options.string = options.string.toLowerCase();
-    var morse = options.string.convertToMorse(); 
+    var morse = options.string.convertToMorse().flatten(); 
+	
 	console.log(morse);
 	blinkText(morse, 0);
 };
@@ -125,7 +126,7 @@ function morseFlicker(element, userOpts){
 
 function morse(id) {
 	morseFlicker(id, {
-		toggle: 'blink',
+		toggle: 'toggle',
 		time: 400
 	});
 };
