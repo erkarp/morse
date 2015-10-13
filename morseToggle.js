@@ -11,18 +11,6 @@ Array.prototype.add = function(arr) {
 	}
 };
 
-Array.prototype.morseString = function() {
-	var string = ''; 
-	this.forEach(function(char) {
-		switch(char) {
-			case -2: string += ' / ';
-			case -1: string += '';
-			case  1: string += '.';
-			case  2: string += '-';
-		};
-	}); 	return string;
-};
-
 String.prototype.convertToMorse = function() {
     var array = this.split(''), 
 		morse = []; 
@@ -61,6 +49,22 @@ String.prototype.convertToMorse = function() {
     });
     return morse;
 }; 
+
+function numToSym(char) {
+	switch(char) {
+		case -2: return ' / '; break;
+		case -1: return ''; break;
+		case  1: return '.'; break;
+		case  2: return '-'; break;
+		default: return " " ;
+	};
+};
+
+function flattenArray = function(threeD) {
+	return threeD.reduce(function(bigArr, curArr) {
+		return bigArr.concat(curArr);
+	}, []};
+}
 
 function blinkText(text, count) {
 	
