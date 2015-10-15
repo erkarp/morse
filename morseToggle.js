@@ -1,13 +1,7 @@
-var options = {
-	toggle: "active",
-    string: "SOS", 
-    time: 250
-};
-
 Array.prototype.add = function(arr) {
 	for (var i = 0; i < arr.length; i++) {
 		this.push(arr[i]);
-		this.push(-1);
+		this.push(-.5);
 	}
 	return this; 
 };
@@ -57,76 +51,91 @@ String.prototype.convertToMorse = function() {
     return morse;
 }; 
 
+function morseToString(arr) {
+	return arr.reduce(function(str, num) {
+		return str.concat(numToSym(num));
+	}, '');
+};
+
 function numToSym(char) {
 	switch(char) {
-		case -2: return ' / '; break;
-		case -1: return ''; break;
-		case  1: return '.'; break;
-		case  2: return '-'; break;
+		case  -2: return ' / '; break;
+		case -.5: return ''; break;
+		case   1: return '.'; break;
+		case   2: return '-'; break;
 		default: return " " ;
 	};
 };
 
-function blinkText(text, count) {
+function toggle(time) {
+	var elem = options.element,
+		togg = options.toggle;
 	
-	toggle(text[count]);
-	window.setTimeout(function() {
-		
-		isThereMore(text, ++count) ? 
-			blinkText(text, count) :
-			console.log("end");
-					
-	}, Math.abs(text[count] * options.time));
-};
-
-function toggle(time){
-	var elem = document.getElementById(options.element);
-	console.log(time, elem.classList);
-	
-	if (time > 0 && !elem.classList.contains(options.toggle)) {
+	if (time > 0 && $(elem).addClass(togg) {
 		elem.classList.add(options.toggle);
 	} else {
 		elem.classList.remove(options.toggle);
 	}
 };
 
-function isThereMore(array, count) {
-	if (array[count+1] == undefined) {
-		return false; 
-	}
-	return true; 
-}
-
-function morseFlicker(element, userOpts){
+function morseToggle(element, userOpts){
     if (typeof arguments[0] != 'string') {
         return; 
     }
 	
 	options.element = element;
-    
-    for (var opt in options) {
-        if (userOpts[opt] != undefined 
-            && typeof userOpts[opt] === typeof options[opt]) {
-            options[opt] = userOpts[opt];
-        }
-    }
-    
-	options.string = options.string.toLowerCase();
-    var morse = options.string.convertToMorse().flatten(); 
+	setOpts(userOpts);
 	
-	console.log(morse);
+    var morse = options.string.convertToMorse().flatten(); 
+	var morseString = morseToString(morse);
+	console.log(morse, morseString);
 	blinkText(morse, 0);
 };
 
-
-
-
+(function($) {
+    $.fn.morseLaunch = function(userOpts) {
+		
+        var options = $.extend({
+			toggle: "active",
+			string: "SOS", 
+			time: 250
+        }, userOpts);
  
+		var morse = options.string.convertToMorse().flatten();
+		var morseString = morseToString(morse);
+
+		function blinkText(elem, count) {
+			elem.toggleClass(options.toggle);
+
+			window.setTimeout(function() {
+
+				morse.length > ++count ? 
+					blinkText(elem, count) :
+					console.log("end");
+
+			}, Math.abs(morse[count] * options.time));
+		};
+
+		this.each(function(elem) {
+			blinkText(elem, 0);
+		});
+		
+        return this.css({
+            color: settings.color,
+            backgroundColor: settings.backgroundColor
+        });
+    };
+}( jQuery ));
+
+
+
+
 // Demo
 
-function morse(id) {
-	morseFlicker(id, {
+function morse(class) {
+	$(class).morseToggle({
 		toggle: 'toggle',
+		string: "Toggling with jQuery",
 		time: 400
 	});
 };
