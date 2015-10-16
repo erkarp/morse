@@ -17,5 +17,8 @@
   ],
   "author": "Emily Karp",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/kerarp/morsetoggle#readme"
+  "homepage": "https://bitbucket.org/kerarp/morsetoggle#readme",
+  "dependencies": {
+    "jquery": "^2.1.4"
+  }
 }

@@ -1,3 +1,5 @@
+"use strict";
+
 Array.prototype.add = function(arr) {
 	for (var i = 0; i < arr.length; i++) {
 		this.push(arr[i]);
@@ -67,33 +69,8 @@ function numToSym(char) {
 	};
 };
 
-function toggle(time) {
-	var elem = options.element,
-		togg = options.toggle;
-	
-	if (time > 0 && $(elem).addClass(togg) {
-		elem.classList.add(options.toggle);
-	} else {
-		elem.classList.remove(options.toggle);
-	}
-};
-
-function morseToggle(element, userOpts){
-    if (typeof arguments[0] != 'string') {
-        return; 
-    }
-	
-	options.element = element;
-	setOpts(userOpts);
-	
-    var morse = options.string.convertToMorse().flatten(); 
-	var morseString = morseToString(morse);
-	console.log(morse, morseString);
-	blinkText(morse, 0);
-};
-
 (function($) {
-    $.fn.morseLaunch = function(userOpts) {
+    $.fn.morseToggle = function(userOpts) {
 		
         var options = $.extend({
 			toggle: "active",
@@ -102,7 +79,6 @@ function morseToggle(element, userOpts){
         }, userOpts);
  
 		var morse = options.string.convertToMorse().flatten();
-		var morseString = morseToString(morse);
 
 		function blinkText(elem, count) {
 			elem.toggleClass(options.toggle);
@@ -116,26 +92,8 @@ function morseToggle(element, userOpts){
 			}, Math.abs(morse[count] * options.time));
 		};
 
-		this.each(function(elem) {
-			blinkText(elem, 0);
+		this.each(function() {
+			blinkText($(this), 0);
 		});
-		
-        return this.css({
-            color: settings.color,
-            backgroundColor: settings.backgroundColor
-        });
     };
 }( jQuery ));
-
-
-
-
-// Demo
-
-function morse(class) {
-	$(class).morseToggle({
-		toggle: 'toggle',
-		string: "Toggling with jQuery",
-		time: 400
-	});
-};

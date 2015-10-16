@@ -36,8 +36,18 @@
 	</style>
 </head>
 <body>
-	<h1 id="demo">This is blinking in Morse code!</h1>
-	<button onclick="morse('demo')">Start Morse</button>
+	<h1 class="demo">This is blinking in Morse code!</h1>
+	<button onclick="morse()">Start Morse</button>
+	<script src="node_modules/jquery/dist/jquery.js"></script>
 	<script src="morseToggle.js"></script>
+	<script>
+		function morse() {
+			$('.demo').morseToggle({
+				toggle: 'toggle',
+				string: "Toggling with jQuery",
+				time: 400
+			});
+		};
+	</script>
 </body>
 </html>
