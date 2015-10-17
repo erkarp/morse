@@ -3,12 +3,14 @@
 Array.prototype.add = function(arr) {
 	for (var i = 0; i < arr.length; i++) {
 		this.push(arr[i]);
-		this.push(-.5);
+		this.push(1);
 	}
 	return this; 
 };
 
 Array.prototype.flatten = function() {
+//	return [].concat.apply(this);
+	
 	return this.reduce(function(bigArr, curArr) {
 		return bigArr.add(curArr);
 	}, []);
@@ -79,6 +81,7 @@ function numToSym(char) {
         }, userOpts);
  
 		var morse = options.string.convertToMorse().flatten();
+		console.log(morse);
 
 		function blinkText(elem, count) {
 			elem.toggleClass(options.toggle);
