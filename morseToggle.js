@@ -94,18 +94,6 @@ function letterTime(char) {
 	}
 }; 
 
-String.prototype.encode = function() {
-	return encode(this, function(x) {
-		return letterSym(x) + letterSym();
-	}, '');
-};
-String.prototype.encodeTime = function() {
-	console.log(this);
-	return encode(this, function(x) {
-		return letterTime(x).concat(letterTime());
-	}, []);
-};
-
 function encode(text, fn, start) {
 	if (typeof text == 'string') {
 		text = text.split('');
@@ -115,6 +103,17 @@ function encode(text, fn, start) {
 		return result.concat(fn(char));
 	}, start);	
 }
+
+String.prototype.encode = function() {
+	return encode(this, function(x) {
+		return letterSym(x) + letterSym();
+	}, '');
+};
+String.prototype.encodeTime = function() {
+	return encode(this, function(x) {
+		return letterTime(x).concat(letterTime());
+	}, []);
+};
 
 function transcodeChar(char, code, transCode) {
 	for (var key in code) {
@@ -126,7 +125,7 @@ function transcodeChar(char, code, transCode) {
 
 String.prototype.transcode = function() {
 	return encode(this, function(x) {
-		return transcodeChar(x, sym, time);
+		return [transcodeChar(x, sym, time)].concat(letterTime());
 	}, []);
 };
 Array.prototype.transcode = function() {
