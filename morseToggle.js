@@ -21,7 +21,6 @@ Array.prototype.add = function(arr) {
 	}
 	return this; 
 };
-
 Array.prototype.flatten = function() {
 	return this.reduce(function(bigArr, curArr) {
 		return bigArr.add(curArr);
@@ -98,7 +97,6 @@ function letterTime(char) {
 String.prototype.encode = function() {
 	return encode(this, letterSym, '');
 };
-
 String.prototype.encodeTime = function() {
 	return encode(this, letterTime, []);
 };
@@ -110,13 +108,6 @@ function encode(str, fn, start) {
 	}, start);	
 }
 
-Number.prototype.transCode = function() {
-	return transcodeChar(this, time, sym);
-};
-String.prototype.transCode = function() {
-	return transcodeChar(this, sym, time);
-};
-
 function transcodeChar(char, code, transCode) {
 	for (var key in code) {
 		if (char == code[key]) {
@@ -124,6 +115,20 @@ function transcodeChar(char, code, transCode) {
 		}
 	}
 }
+Number.prototype.transCodeChar = function() {
+	return transcodeChar(this, time, sym);
+};
+String.prototype.transCodeChar = function() {
+	return transcodeChar(this, sym, time);
+};
+Array.prototype.transCode = function() {
+	var start = typeof this[0] === 'number' ? '' : [];
+	return this.reduce(function(result, char) {
+		console.log(char, result);
+		return result.concat(char.transCodeChar());
+	}, start);
+};
+
 
 
 (function($) {
@@ -153,6 +158,9 @@ function transcodeChar(char, code, transCode) {
 		this.each(function() {
 			blinkText($(this), 0);
 		});
-		console.log(opts.string.toLowerCase().encode());
+		var str = opts.string.toLowerCase().encode();
+		console.log(str);
+		console.log("str to array", str.split('').transCode());
+		console.log("morse to str", morse.transCode());
     };
 }( jQuery ));
