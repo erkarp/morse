@@ -100,14 +100,18 @@ String.prototype.encode = function() {
 	}, '');
 };
 String.prototype.encodeTime = function() {
+	console.log(this);
 	return encode(this, function(x) {
 		return letterTime(x).concat(letterTime());
 	}, []);
 };
 
-function encode(str, fn, start) {
-	return str.split('').reduce(function(result, char) {
-		console.log(char, result);
+function encode(text, fn, start) {
+	if (typeof text == 'string') {
+		text = text.split('');
+	}
+	
+	return text.reduce(function(result, char) {
 		return result.concat(fn(char));
 	}, start);	
 }
@@ -119,18 +123,16 @@ function transcodeChar(char, code, transCode) {
 		}
 	}
 }
-Number.prototype.transCodeChar = function() {
-	return transcodeChar(this, time, sym);
+
+String.prototype.transcode = function() {
+	return encode(this, function(x) {
+		return transcodeChar(x, sym, time);
+	}, []);
 };
-String.prototype.transCodeChar = function() {
-	return transcodeChar(this, sym, time);
-};
-Array.prototype.transCode = function() {
-	var start = typeof this[0] === 'number' ? '' : [];
-	return this.reduce(function(result, char) {
-		console.log(char, result);
-		return result.concat(char.transCodeChar());
-	}, start);
+Array.prototype.transcode = function() {
+	return encode(this, function(x) {
+		return transcodeChar(x, time, sym);
+	}, '');
 };
 
 
@@ -164,7 +166,7 @@ Array.prototype.transCode = function() {
 		});
 		var str = opts.string.toLowerCase().encode();
 		console.log(str);
-		console.log("str to array", str.split('').transCode());
-		console.log("morse to str", morse.transCode());
+		console.log("str to array", str.transcode());
+		console.log("morse to str", morse.transcode());
     };
 }( jQuery ));
