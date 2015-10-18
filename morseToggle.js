@@ -113,7 +113,8 @@ String.prototype.encode = function() {
 };
 String.prototype.encodeTime = function() {
 	return encode(this, function(x) {
-		return letterTime(x).concat(letterTime());
+		console.log(letterTime(x).concat([time.cut]));
+		return letterTime(x).insertCuts(time.cut);
 	}, []);
 };
 
@@ -127,7 +128,7 @@ function transcodeChar(char, code, transCode) {
 
 String.prototype.transcode = function() {
 	return encode(this, function(x) {
-		return [transcodeChar(x, sym, time)].concat(letterTime());
+		return [transcodeChar(x, sym, time)].concat([time.cut]);
 	}, []);
 };
 Array.prototype.transcode = function() {
