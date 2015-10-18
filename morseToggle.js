@@ -95,16 +95,20 @@ function letterTime(char) {
 }; 
 
 String.prototype.encode = function() {
-	return encode(this, letterSym, '');
+	return encode(this, function(x) {
+		return letterSym(x) + letterSym();
+	}, '');
 };
 String.prototype.encodeTime = function() {
-	return encode(this, letterTime, []);
+	return encode(this, function(x) {
+		return letterTime(x).concat(letterTime());
+	}, []);
 };
 
 function encode(str, fn, start) {
 	return str.split('').reduce(function(result, char) {
 		console.log(char, result);
-		return result.concat(fn(char), fn());
+		return result.concat(fn(char));
 	}, start);	
 }
 
