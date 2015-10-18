@@ -15,11 +15,13 @@ var sym = {
 		cut: -1
 	};
 
-Array.prototype.add = function(arr) {
-	for (var i = 0; i < arr.length; i++) {
-		this.push(arr[i]);
-	}
-	return this; 
+Array.prototype.insertCuts = function(cut) {
+	var array = [];
+	this.forEach(function(item) {
+		array.push(item);
+		array.push(cut);
+	});
+	return array; 
 };
 Array.prototype.flatten = function() {
 	return this.reduce(function(bigArr, curArr) {
