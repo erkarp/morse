@@ -1,8 +1,37 @@
 "use strict";
 
-var codex = jQuery.getJSON('./morse.json'),
+var codex = {
+  ' ': ['space'],
+  'a': ['dot', 'dash'],
+  'b': ['dash', 'dot', 'dot', 'dot'],
+  'c': ['dash', 'dot', 'dash', 'dot'],
+  'd': ['dash', 'dot', 'dot'],
+  'e': ['dot'],
+  'f': ['dot', 'dot', 'dash', 'dot'],
+  'g': ['dash', 'dash', 'dot'],
+  'h': ['dot', 'dot', 'dot', 'dot'],
+  'i': ['dot', 'dot'],
+  'j': ['dot', 'dash', 'dash', 'dash'],
+  'k': ['dash', 'dot', 'dash'],
+  'l': ['dot', 'dash', 'dot', 'dot'],
+  'm': ['dash', 'dash'],
+  'n': ['dash', 'dot'],
+  'o': ['dash', 'dash', 'dash'],
+  'p': ['dot', 'dash', 'dash', 'dot'],
+  'q': ['dash', 'dash', 'dot', 'dash'],
+  'r': ['dot', 'dash', 'dot'],
+  's': ['dot', 'dot', 'dot'],
+  't': ['dash'],
+  'u': ['dot', 'dot', 'dash'],
+  'v': ['dot', 'dot', 'dot', 'dash'],
+  'w': ['dot', 'dash', 'dash'],
+  'x': ['dash', 'dot', 'dot', 'dash'],
+  'y': ['dash', 'dot', 'dash', 'dash'],
+  'z': ['dash', 'dash', 'dot', 'dot'],
+  '.': ['stop']
+}
 
-    sym = {
+var sym = {
 		dot: '.',
 		dash: '_',
 		space: ' ',
@@ -23,34 +52,47 @@ Array.prototype.insertCuts = function(cut) {
 		array.push(item);
 		array.push(cut);
 	});
-	return array; 
+	return array;
 };
+
+/* DEPRECIATED
 Array.prototype.flatten = function() {
 	return this.reduce(function(bigArr, curArr) {
 		return bigArr.add(curArr);
 	}, []);
 }
+*/
 
-function letterSym(char) {
-}; 
-function letterTime(char) {
-}; 
+/// return:
+// param: string or array of single characters
+// param: function to be performed on each characters
+// param: seed string or array to be added to and returned
 
 function encode(text, fn, start) {
 	if (typeof text == 'string') {
 		text = text.split('');
 	}
-	
+
 	return text.reduce(function(result, char) {
 		return result.concat(fn(char));
-	}, start);	
+	}, start);
 }
+
+
+
+// this: string to be converted to morse code symbols
+// return: flattened string of morse code symbols
 
 String.prototype.encode = function() {
 	return encode(this, function(x) {
-		return letterSym(x) + letterSym();
+		return [codex[x], sym.cut];
 	}, '');
 };
+
+
+// this: tring to be converted into blink times
+// return: array of blink times to for blinkText()
+
 String.prototype.encodeTime = function() {
 	return encode(this, function(x) {
 		console.log(letterTime(x).concat([time.cut]));
@@ -80,14 +122,14 @@ Array.prototype.transcode = function() {
 
 
 (function($) {
-    $.fn.morseToggle = function(userOpts) {
-		
+  $.fn.morseToggle = function(userOpts) {
+
         var opts = $.extend({
-			toggle: "active",
-			string: "SOS", 
-			time: 250
+      			toggle: "active",
+      			string: "SOS",
+      			time: 250
         }, userOpts);
- 
+
 		var morse = opts.string.toLowerCase().encodeTime();
 		console.log(morse);
 
@@ -96,7 +138,7 @@ Array.prototype.transcode = function() {
 
 			window.setTimeout(function() {
 
-				if (morse.length > ++count) { 
+				if (morse.length > ++count) {
 					blinkText(elem, count);
 				}
 
