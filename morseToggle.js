@@ -31,20 +31,22 @@ var codex = {
   '.': ['stop']
 }
 
-var sym = {
-		dot: '.',
-		dash: '_',
-		space: ' ',
-		stop: ' / ',
-		cut: ''
-	},
-	time = {
-		dot: 1,
-		dash: 2,
-		space: -1.5,
-		stop: -2,
-		cut: -1
-	};
+var trans = {
+      sym: {
+    		dot: '.',
+    		dash: '_',
+    		space: '  ',
+    		stop: ' / ',
+    		cut: ' '
+    	},
+    	time: {
+    		dot: 1,
+    		dash: 2,
+    		space: -1.5,
+    		stop: -2,
+    		cut: -1
+      }
+	  };
 
 Array.prototype.insertCuts = function(cut) {
 	var array = [];
@@ -63,30 +65,42 @@ Array.prototype.flatten = function() {
 }
 */
 
-/// return:
+/// return: sting of
 // param: string or array of single characters
 // param: function to be performed on each characters
 // param: seed string or array to be added to and returned
 
-function encode(text, fn, start) {
-	if (typeof text == 'string') {
+function encode(text, code, seed) {
+	if (typeof text === 'string') {
 		text = text.split('');
 	}
 
 	return text.reduce(function(result, char) {
-		return result.concat(fn(char));
-	}, start);
+    var mapped = encodeChar(char, code);
+
+    if (typeof seed === 'string') {
+      mapped = mapped.join('');
+    }
+
+    mapped = mapped.concat(trans[code].cut);
+    return result.concat(mapped);
+	}, seed);
 }
 
+
+
+function encodeChar(x, code) {
+  return codex[x].map(function(char) {
+    return trans[code][char];
+  });
+}
 
 
 // this: string to be converted to morse code symbols
 // return: flattened string of morse code symbols
 
 String.prototype.encode = function() {
-	return encode(this, function(x) {
-		return [codex[x], sym.cut];
-	}, '');
+	return encode(this, 'sym', '');
 };
 
 
@@ -94,10 +108,7 @@ String.prototype.encode = function() {
 // return: array of blink times to for blinkText()
 
 String.prototype.encodeTime = function() {
-	return encode(this, function(x) {
-		console.log(letterTime(x).concat([time.cut]));
-		return letterTime(x).insertCuts(time.cut);
-	}, []);
+	return encode(this, 'time', []);
 };
 
 function transcodeChar(char, code, transCode) {
