@@ -65,9 +65,9 @@ Array.prototype.flatten = function() {
 }
 */
 
-/// return: sting of
-// param: string or array of single characters
-// param: function to be performed on each characters
+/// return: sting of symbols or array of times
+// param: array of single characters or a string
+// param: either 'sym' (for symbols) or 'time' (for times)
 // param: seed string or array to be added to and returned
 
 function encode(text, code, seed) {
@@ -88,6 +88,9 @@ function encode(text, code, seed) {
 }
 
 
+/// return: an array of symbols or times equating to one character in morse
+// param: an array of 'dots' and/or 'dashes' equating to one character (from the codex)
+// param: either 'sym' or 'times'
 
 function encodeChar(x, code) {
   return codex[x].map(function(char) {
@@ -110,6 +113,8 @@ String.prototype.encode = function() {
 String.prototype.encodeTime = function() {
 	return encode(this, 'time', []);
 };
+
+
 
 function transcodeChar(char, code, transCode) {
 	for (var key in code) {

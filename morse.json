@@ -1,8 +1,8 @@
-var codex = {
+{
   ' ': ['space'],
   'a': ['dot', 'dash'],
   'b': ['dash', 'dot', 'dot', 'dot'],
-  'c': ['dash', 'dot', 'dash', 'dot'],
+  'c': ['dash', 'dot', 'dash', 'dot'], 
   'd': ['dash', 'dot', 'dot'],
   'e': ['dot'],
   'f': ['dot', 'dot', 'dash', 'dot'],
